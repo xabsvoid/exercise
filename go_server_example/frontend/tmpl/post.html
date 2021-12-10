@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Post</title>
+</head>
+<body>
+    <div>
+        <input id="title" type="text" value="Some text"></input>
+    </div>
+    <div>
+        <textarea id="text" name="body" rows="20" cols="80" >Some text</textarea>
+    </div>
+    <div>
+        <button onclick="postNote()">Post</button>
+    </div>
+    <script>
+        function postNote() {
+            fetch("{{.Backend}}/note", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title: document.getElementById("title").value,
+                    text: document.getElementById("text").value
+                })
+            })
+            .then(function (response) {
+                console.info(response)
+                window.location.replace("/");
+            })
+            .catch(function (err) {
+                console.error(err);
+                alert(err)
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Get</title>
+</head>
+<body>
+    <div>
+        <label>Notes</label>
+    </div>
+    <div id="notes"></div>
+    <div>
+        <a href="/postNote/">Post new note</a>
+    </div>
+    <script>
+        fetch("{{.Backend}}/notes/{{.ID}}/{{.Limit}}")
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (note) {
+                appendNotes(note);
+            })
+            .catch(function (err) {
+                console.error(err);
+                alert(err)
+            });
+        function appendNotes(note) {
+            var notes = document.getElementById("notes");
+            for (var i = 0; i < note.length; i++) {
+                var a = document.createElement("a");
+                a.href = "/putNote/" + note[i].id;
+                a.innerHTML = "[" + note[i].id + "] ["
+                                    + note[i].created_time + "] "
+                                    + note[i].title;
+                var div = document.createElement("div");
+                div.appendChild(a);
+                notes.appendChild(div);
+                var a = document.createElement("a");
+                a.href = "/deleteNote/" + note[i].id;
+                a.innerHTML = "[delete]";
+                var div = document.createElement("div");
+                div.appendChild(a);
+                notes.appendChild(div);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Put</title>
+</head>
+<body>
+    <div>
+        <input id="title" type="text"></input>
+    </div>
+    <div>
+        <textarea id="text" name="body" rows="20" cols="80"></textarea>
+    </div>
+    <div>
+        <button onclick="putNote()">Put</button>
+    </div>
+    <script>
+        fetch("{{.Backend}}/note/{{.ID}}")
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (note) {
+                showNote(note);
+            })
+            .catch(function (err) {
+                console.error(err);
+                alert(err)
+            });
+        function putNote() {
+            fetch("{{.Backend}}/note/{{.ID}}", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    title: document.getElementById("title").value,
+                    text: document.getElementById("text").value
+                })
+            })
+            .then(function (response) {
+                console.info(response)
+            })
+            .catch(function (err) {
+                console.error(err);
+                alert(err)
+            });
+        }
+        function showNote(note) {
+            var title = document.getElementById("title");
+            var text = document.getElementById("text");
+            title.value = note.title
+            text.value = note.text
+        }
+    </script>
+</body>
+</html>

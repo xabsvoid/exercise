@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: backend
+    ports:
+      - 5432:5432
+
+  backend:
+    build: backend
+    restart: always
+    depends_on:
+      - db
+    command: ["./wait-for-it.sh", "backend"]
+    environment:
+      BACKEND_ADDR: :10000
+      POSTGRES_HOST: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: backend
+    ports:
+      - 10000:10000
+
+  frontend:
+    build: frontend
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      FRONTEND_ADDR: :10008
+      FRONTEND_BACKEND_URL: http://localhost:10000
+    ports:
+      - 10008:10008
