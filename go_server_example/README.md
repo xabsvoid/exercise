@@ -1,4 +1,4 @@
-# Go server example
+# Go server example ([Сбербанк](https://www.sberbank.ru), 2021)
 
 Frontend (Go/HTML/JavaScript) - Backend (Go/GORM) - Database (PostgreSql)
 
