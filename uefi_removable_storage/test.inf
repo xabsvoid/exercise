@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = test
+  FILE_GUID                      = 8F717B2D-001C-4C98-B14E-4EC99C4081AC
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  main.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiBootServicesTableLib
+  DebugLib
+  UefiLib
+  MemoryAllocationLib
+  DevicePathLib
+  
+[Protocols]
+  gEfiBlockIoProtocolGuid
