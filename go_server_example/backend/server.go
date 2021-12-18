@@ -103,6 +103,7 @@ func (server Server) postNote(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	defer r.Body.Close()
 	note.CreatedTime = time.Now()
 	err = note.Validate()
 	if err != nil {
@@ -130,6 +131,7 @@ func (server Server) updateNote(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	defer r.Body.Close()
 	note.ID = id
 	err = note.Validate()
 	if err != nil {
